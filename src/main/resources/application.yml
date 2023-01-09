@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///reggie?userSSL=false
+    username: root
+    password: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size: 3MB  #单个文件最大限制
+      max-request-size: 10MB  #单个请求最大限制
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # sql日志输出
+    map-underscore-to-camel-case: true  # 下划线与小驼峰映射
+  type-aliases-package: com.seven.reggie.entity  # 实体类的别名扫描，写上实体类别名扫描以后我们在mapper.xml文件上就可以直接写实体类的名称。不需要全类名
+  mapper-locations:
+    - classpath:mappers/*.xml  #  mapper.xml文件所在的位置
+pagehelper:
+  helper-dialect: mysql   # 我们系统现在使用的mysql，pageHelper就会给你拼接mysql分页语句
+  reasonable: true   # 开启合理化分页，当前页<=0的时候查询是第一页， 当前页>总页数的时候查询的是最后一页
+reggie:
+  path: D:\学习资料\02.Projects\reggie_take_out\src\main\resources\backend\images\imgs

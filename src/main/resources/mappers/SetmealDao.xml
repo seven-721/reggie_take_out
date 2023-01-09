@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.seven.reggie.dao.SetmealDao">
+    <sql id="deleteIds">
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </sql>
+    <update id="updeteByStatus">
+        update setmeal set status=#{status} where id in
+       <include refid="deleteIds"></include>
+    </update>
+
+    <delete id="deleteById">
+        delete from setmeal where id in
+            <include refid="deleteIds"></include>
+    </delete>
+
+    <select id="page" resultType="SetmealEntity">
+        select * from  setmeal
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+
+    </select>
+    <select id="findCountById" resultType="Long">
+        select count(*) from setmeal where id in
+        <include refid="deleteIds"></include>
+        and status=1;
+    </select>
+
+
+</mapper>
