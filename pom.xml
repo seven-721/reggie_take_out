@@ -23,7 +23,10 @@
 
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
         <!--start-web: 这个是springmvc启动器，内嵌有tomcat服务器   spring-boot-starter： springboot最基础的启动器，不包含tomcat-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

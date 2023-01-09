@@ -5,10 +5,20 @@ spring:
     username: root
     password: mysql
     type: com.alibaba.druid.pool.DruidDataSource
+
   servlet:
     multipart:
       max-file-size: 3MB  #单个文件最大限制
       max-request-size: 10MB  #单个请求最大限制
+  redis:
+    port: 6379
+    host: 192.168.121.129
+    jedis:
+      pool:
+        max-idle: 5
+        min-idle: 2
+        max-active: 10
+        max-wait: 1ms
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # sql日志输出

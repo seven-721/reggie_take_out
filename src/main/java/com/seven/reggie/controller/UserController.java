@@ -7,6 +7,8 @@ import com.seven.reggie.util.SMSUtils;
 import com.seven.reggie.util.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserService _userService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @PostMapping("/sendMsg")
     public R sendMsg(@RequestBody User user, HttpSession session){
@@ -45,7 +51,10 @@ public class UserController {
 
         log.info("本次验证码："+ integer);
         //将验证码存入到session中
-        session.setAttribute(phone,integer+"");
+        //session.setAttribute(phone,integer+"");
+
+        redisTemplate.opsForValue().set(phone,integer,1, TimeUnit.MINUTES);
+
         return R.success("发送成功!");
     }
 
@@ -55,9 +64,13 @@ public class UserController {
         String phone = (String) paramMap.get("phone");
         String code = (String) paramMap.get("code");
         //2. 从session获取系统生成的验证码
-        String sessioncode = (String) session.getAttribute(phone);
+        //String sessioncode = (String) session.getAttribute(phone);
+
+        ValueOperations opsForValue = redisTemplate.opsForValue();
+        String verifycode = opsForValue.get(phone).toString();
+
         //3.传给service去登录
-        R result =_userService.login(phone,code,sessioncode);
+        R result =_userService.login(phone,code,verifycode);
         //判断登录是否成功，如果成功则清楚session中的验证码，并且需要在session中做登录成功标识
         if (result.getCode()==1) {
             //清楚session中的验证了记录
