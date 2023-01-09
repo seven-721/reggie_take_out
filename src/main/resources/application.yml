@@ -19,6 +19,9 @@ spring:
         min-idle: 2
         max-active: 10
         max-wait: 1ms
+  cache:
+    redis:
+      time-to-live: 1800000
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # sql日志输出

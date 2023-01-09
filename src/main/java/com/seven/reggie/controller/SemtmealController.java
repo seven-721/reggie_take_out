@@ -5,6 +5,7 @@ import com.seven.reggie.entity.SetmealEntity;
 import com.seven.reggie.entity.dto.SetmealDto;
 import com.seven.reggie.servce.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -77,6 +78,7 @@ public class SemtmealController {
      * @return
      */
     @GetMapping("/list")
+    @Cacheable(value = "setmeal",key ="#categoryId+'_'+#status")
     public R list(Long categoryId,Integer status){
         R<List<SetmealEntity>> result=setmealService.list(categoryId,status);
         return result;

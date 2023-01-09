@@ -12,6 +12,7 @@ import com.seven.reggie.exception.CustomerException;
 import com.seven.reggie.servce.SetmealService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,7 @@ public class SetmealServiceImpl implements SetmealService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "setmeal",allEntries = true)
     public R add(SetmealDto setmealDto) {
          setmealDto.setCreateTime(LocalDateTime.now());
          setmealDto.setUpdateTime(LocalDateTime.now());
