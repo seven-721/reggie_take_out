@@ -38,7 +38,7 @@
     </update>
 
 
-    <select id="findByName" resultType="EmployeeEntity">
+    <select id="findByName" resultType="com.seven.reggie.entity.EmployeeEntity">
         select * from employee
         <where>
             <if test="name!=null and name!=''">

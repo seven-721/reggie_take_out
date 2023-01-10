@@ -18,7 +18,7 @@
             <include refid="deleteIds"></include>
     </delete>
 
-    <select id="page" resultType="SetmealEntity">
+    <select id="page" resultType="com.seven.reggie.entity.SetmealEntity">
         select * from  setmeal
         <where>
             <if test="name!=null and name!=''">

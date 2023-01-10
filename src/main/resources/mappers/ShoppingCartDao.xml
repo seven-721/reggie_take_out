@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.seven.reggie.dao.ShoppingCartDao">
 
-    <select id="findByUserId" resultType="ShoppingCart">
+    <select id="findByUserId" resultType="com.seven.reggie.entity.ShoppingCart">
         select *from shopping_cart where user_id=#{userId}
         <if test="dishId!=null">
             and dish_id=#{dishId}

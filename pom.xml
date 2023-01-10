@@ -13,6 +13,7 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+
     <!--使用上springboot都必须要继承父模块-->
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -23,11 +24,9 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!--start-web: 这个是springmvc启动器，内嵌有tomcat服务器   spring-boot-starter： springboot最基础的启动器，不包含tomcat-->
+
+        <!-- springboot最基础的启动器，其实所有的启动器都包含了这个基础启动器的，也就是说你只需要导入了
+        spring-boot-starter-web的时候这个基础启动器也是有了。 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -40,7 +39,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--springmvc的启动器-->
+        <!--springmvc的启动器  包含了tomcat的-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -108,6 +107,7 @@
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>2.1.0</version>
         </dependency>
+
         <!--excel  POI依赖-->
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -125,20 +125,32 @@
             <version>4.0.1</version>
         </dependency>
 
+        <!--        spring data redis-->
         <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.5.16</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-            <version>2.1.0</version>
-        </dependency>
+
+
+        <!--        spring cache 使用redis的注解缓存注解-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+            <version>4.0.0-RC1</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

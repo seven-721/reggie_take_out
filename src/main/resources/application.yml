@@ -1,18 +1,45 @@
+server:
+  port: 8080
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:///reggie?userSSL=false
-    username: root
-    password: mysql
-    type: com.alibaba.druid.pool.DruidDataSource
-
+  shardingsphere:
+    datasource:
+      names:
+        master,slave  # 这里数据源名字是可以随便修改，但是一定要与下面配置要对应
+      # 主数据源
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.121.128:3306/reggie?characterEncoding=utf-8&useSSL=false
+        username: root
+        password: root
+      # 从数据源
+      slave:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.121.129:3306/reggie?characterEncoding=utf-8&useSSL=false
+        username: root
+        password: root
+    masterslave:
+      # 读写分离配置
+      load-balance-algorithm-type: round_robin  #  从库负载均衡策略使用轮询
+      # 最终的数据源名称
+      name: dataSource   # 数据源名称，在spring容器存储数据源的名字
+      # 主库数据源名称
+      master-data-source-name: master
+      # 从库数据源名称列表，多个逗号分隔
+      slave-data-source-names: slave
+    props:
+      sql:
+        show: true #开启SQL显示，默认false
+  main:
+    allow-bean-definition-overriding: true  #  允许sharedingjdbc数据源去覆盖德鲁伊数据源
   servlet:
     multipart:
-      max-file-size: 3MB  #单个文件最大限制
-      max-request-size: 10MB  #单个请求最大限制
+      max-request-size: 10MB # 一个请求最大值
+      max-file-size: 2MB  # 单个文件的最大值
   redis:
+    host: 192.168.32.128
     port: 6379
-    host: 192.168.121.129
     jedis:
       pool:
         max-idle: 5
@@ -21,16 +48,16 @@ spring:
         max-wait: 1ms
   cache:
     redis:
-      time-to-live: 1800000
+      time-to-live: 1800000  # 控制springcache所有key的过期是30分钟
 mybatis:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # sql日志输出
-    map-underscore-to-camel-case: true  # 下划线与小驼峰映射
-  type-aliases-package: com.seven.reggie.entity  # 实体类的别名扫描，写上实体类别名扫描以后我们在mapper.xml文件上就可以直接写实体类的名称。不需要全类名
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # 执行sql语句输出日志， 记忆方法： log-impl
+    map-underscore-to-camel-case: true   #  开启下划线与小驼峰自动映射  记忆： under
+  type-aliases-package: com.itheima.reggie.entity  # 实体类别名扫描  记忆： aliases
   mapper-locations:
-    - classpath:mappers/*.xml  #  mapper.xml文件所在的位置
+    - classpath:mappers/*.xml   # 配置我们mapper文件所在的位置
 pagehelper:
-  helper-dialect: mysql   # 我们系统现在使用的mysql，pageHelper就会给你拼接mysql分页语句
-  reasonable: true   # 开启合理化分页，当前页<=0的时候查询是第一页， 当前页>总页数的时候查询的是最后一页
+  helper-dialect: mysql # 我们系统现在使用的mysql，pageHelper就会给你拼接mysql分页语句
+  reasonable: true  # 开启合理化分页，当前页<=0的时候查询是第一页， 当前页>总页数的时候查询的是最后一页
 reggie:
   path: D:\学习资料\02.Projects\reggie_take_out\src\main\resources\backend\images\imgs
