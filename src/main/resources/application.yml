@@ -57,7 +57,7 @@ mybatis:
   mapper-locations:
     - classpath:mappers/*.xml   # 配置我们mapper文件所在的位置
 pagehelper:
-  helper-dialect: mysql # 我们系统现在使用的mysql，pageHelper就会给你拼接mysql分页语句
+  helper-dialect: mysql #  我们系统现在使用的mysql，pageHelper就会给你拼接mysql分页语句
   reasonable: true  # 开启合理化分页，当前页<=0的时候查询是第一页， 当前页>总页数的时候查询的是最后一页
 reggie:
-  path: D:\学习资料\02.Projects\reggie_take_out\src\main\resources\backend\images\imgs
+  path: /imgs
