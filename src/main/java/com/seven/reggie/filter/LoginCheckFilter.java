@@ -29,7 +29,12 @@ public class LoginCheckFilter implements Filter {
         HttpServletResponse response= (HttpServletResponse) servletResponse;
         //获取请求路径
         String uri = request.getRequestURI();
-        String[] urls={"/employee/login","/backend/**","/front/**","/common/**","/user/sendMsg","/user/login"};
+        String[] urls={"/employee/login","/backend/**","/front/**","/common/**","/user/sendMsg","/user/login",
+                "/doc.html",
+                "/webjars/**",
+                "/swagger-resources",
+                "/v2/api-docs"
+        };
         boolean flag=check(uri,urls);
         if (flag) {
             filterChain.doFilter(request,response);
